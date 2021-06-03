@@ -1,0 +1,215 @@
+{% extends "__base.html" %}
+
+{% load static %}
+
+{% comment %}
+To customize your installation, create a new "__overrides.html" file in the
+appropriate theme location and override blocks of code from "__base.html."
+
+Please see "/docs/customization/theme.md" for information about the
+available template blocks and overriding recommendations.
+{% endcomment %}
+
+{% block head_site_meta %}
+  {{ block.super }}
+  {# Add theme's favicon to sitewide meta tags #}
+  <link href="{% static 'images/favicon.png' %}" rel="icon" sizes="192x192">
+{% endblock head_site_meta %}
+
+{% block head_page_meta %}
+  {# Set default author and description for page meta tags #}
+  <meta name="author" content="The author of this site">
+  <meta name="description" content="A site for newspapers">
+{% endblock head_page_meta %}
+
+{% block head_page_css %}
+  {{ block.super }}
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Bitter" />
+  <style>
+
+    /* Match the navbar style of AragonOutlook.org*/
+    .header_navbar {
+      background-color: #2e2e2e;
+    }
+    .header_navbar a {
+      border-right: 1px solid #222222;
+    }
+
+    /* Make headings match AragonOutlook.org colors and font*/
+    h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+    font-weight:500;
+    line-height:1em;
+    color: rgb(64,64,64);
+    }
+
+    .site_header {
+      background-image: none;
+      margin-top: 1.5em;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      text-align: center;
+      margin-bottom: 2em;
+    }
+
+    #header-title{
+      margin-top: 0;
+      font-family: Bitter, Georgia, serif;
+      font-weight: bolder;
+    }
+
+
+    .main_content {
+      background-color: #ffffff;
+    }
+
+    body {
+      font-family: "lato", sans-serif;
+      color: #404040;
+      background-color: #ffffff;
+      background-image: none;
+      margin: 0 0 100px;
+    }
+
+    html {
+      position: relative;
+      min-height: 100%;
+  }
+
+    footer {
+      background-color: #af0000;
+      background-image: none;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .site-info {
+      color: #fff;
+      padding: 20px 0;
+      background: #af0000;
+    }
+
+    footer#colophon {
+      margin-top: 40px;
+      background: #212121;
+      padding-top: 20px;
+      border-top: 8px solid #af0000;
+    }
+
+    .btn-primary {
+      background-color: #af0000;
+      border: none;
+    }
+  </style>
+
+{% endblock head_page_css %}
+
+{% block header_title %}
+  <a href="{{ root_url }}" rel="home" style="text-decoration:none;">
+        <div id="logo">
+       
+            <img src="../static/images/Aragon-Outlook-Logo.png" alt="The Aragon Outlook Archives">
+          
+        </div>
+        <h1 id="header-title">
+          ARCHIVES
+        </h1>
+      </a>
+{% endblock header_title %}
+
+{% block footer %}
+<footer id="colophon" class="footer">
+    <div class="site-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+            
+                © The Aragon Outlook                                        </div>
+            </div>
+        </div>
+    </div><!-- .site-info -->
+</footer>
+{% endblock footer %}
+
+
+
+
+
+
+
+
+
+
+{% block navbar %}
+<nav class="navbar {% block navbar_classes %}navbar-inverse
+            header_navbar{% endblock navbar_classes %}">
+  <div class="container">
+    {# Brand and toggle get grouped for better mobile display #}
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" aria-expanded="false" data-toggle="collapse"
+        data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    {# Collect the nav links, forms, and other content for toggling #}
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {% block navbar_home %}
+        <li><a href="{% url 'openoni_home' %}">Home</a></li>
+        {% endblock navbar_home %}
+        {% block navbar_pos1 %}
+        <li>
+          <a href="{% url 'openoni_newspapers' %}">Newspapers</a>
+        </li>
+        {% endblock navbar_pos1 %}
+        {% block navbar_pos2 %}
+        <li><a href="{% url 'openoni_about' %}">About</a></li>
+        {% endblock navbar_pos2 %}
+        {% block navbar_pos4 %}
+        <li>
+          <a href="{% url 'openoni_issues' %}">Browse by Date</a>
+        </li>
+        {% endblock navbar_pos4 %}
+        {% block navbar_pos5 %}
+        <li><a href="{% url 'openoni_help' %}">Help</a></li>
+        {% endblock navbar_pos5 %}
+        {% block navbar_search %}
+        <form class="form-inline navbar-form navbar-right" method="get"
+          action="{% url 'openoni_search_pages_results' %}">
+          <div class="form-group">
+            <input type="hidden" name="searchType" alt="searchType" value="basic">
+            <input class="form-control" type="text" name="proxtext" placeholder="search words">
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            <span class="search_text">Search</span>
+          </button>
+        </form>
+        {% endblock navbar_search %}
+        {% block navbar_advancedsearch %}
+        <ul class="nav navbar-nav navbar-right">
+          <li class="nav_advanced_search">
+            <a href="{% url 'openoni_search_advanced' %}">
+              Advanced Search
+            </a>
+          </li>
+        </ul>
+        {% endblock navbar_advancedsearch %}
+
+
+
+    </div>{# /.navbar-collapse #}
+  </div>{# /.container-fluid #}
+</nav>
+{% endblock navbar %}
